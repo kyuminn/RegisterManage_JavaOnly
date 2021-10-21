@@ -1,3 +1,3 @@
-# portfoliO
+# portfolio
 
-킥킥킥
+
