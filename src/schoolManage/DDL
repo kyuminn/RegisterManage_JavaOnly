@@ -1,0 +1,54 @@
+drop table student;
+drop table score;
+drop table subject;
+
+drop sequence stu_seq;
+drop sequence sco_seq;
+drop sequence sub_seq;
+
+create sequence stu_seq start with 1 increment by 1 maxvalue 99999 noorder nocache nocycle;
+create sequence sco_seq start with 1 increment by 1 maxvalue 99999 noorder nocache nocycle;
+create sequence sub_seq start with 1 increment by 1 maxvalue 99999 noorder nocache nocycle;
+
+create table student(
+id number primary key not null,
+name varchar2(255) not null,
+studentID varchar2(255) unique not null
+);
+
+create table subject(
+id number primary key not null,
+subject varchar2(255) not null,
+code varchar2(255) unique not null
+);
+
+create table score (
+id number primary key not null,
+score float,
+stu_id number not null,
+sub_id number not null
+);
+
+alter table score add constraint fk_stu foreign key(stu_id) references student(id) on delete cascade; 
+alter table score add constraint fk_sub foreign key(sub_id) references subject(id) on delete cascade; 
+
+create or replace trigger trg_sub_id_update
+after update of id on subject for each row
+begin
+    update score set sub_id =:new.id where sub_id=:old.id;
+end;
+
+create or replace trigger trg_stu_id_update
+after update of id on student for each row
+begin
+    update score set stu_id =:new.id where stu_id=:old.id;
+end;
+
+다중컬럼 유니크 설정 ( 한 학생의 특정 과목 점수는 하나여야 함)
+alter table score add unique (stu_id,sub_id);
+또는 score 테이블의 stu_id와 sub_id를 기본키로 설정해도 됨
+
+개체 무결성 - 기본 키 값은 중복되거나 널값일 수 없다
+중복된 튜플을 막으려면? 유니크 or PK 제약조건 이용하기
+commit;
+commit;
