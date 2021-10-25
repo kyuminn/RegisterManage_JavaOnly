@@ -25,9 +25,7 @@ import schoolManage.service.SubjectServiceImpl;
 
 public class Main {
 	
-	public static void TestMain() {
-		
-	}
+	
 	
 	public static void printResult(boolean result) {
 		if (result) {
