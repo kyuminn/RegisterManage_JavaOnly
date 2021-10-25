@@ -25,6 +25,10 @@ import schoolManage.service.SubjectServiceImpl;
 
 public class Main {
 	
+	public static void TestMain() {
+		
+	}
+	
 	public static void printResult(boolean result) {
 		if (result) {
 			System.out.println("작업이 정상적으로 반영되었습니다");
